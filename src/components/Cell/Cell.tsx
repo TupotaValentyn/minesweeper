@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 type Props = {
   value?: any;
@@ -20,17 +20,20 @@ const Cell: FC<Props> = ({value, onClick, cMenu}) => {
     return value.neighbour;
   };
 
-  const className =
-    "cell" +
-    (value.isRevealed ? "" : " hidden") +
-    (value.isMine ? " is-mine" : "") +
-    (value.isFlagged ? " is-flag" : "");
 
-  return (
-    <div onClick={onClick} className={className} onContextMenu={cMenu}>
-      {getValue()}
-    </div>
-  )
+  return useMemo(() => {
+    const className =
+      "cell" +
+      (value.isRevealed ? "" : " hidden") +
+      (value.isMine ? " is-mine" : "") +
+      (value.isFlagged ? " is-flag" : "");
+
+    return (
+      <div onClick={onClick} className={className} onContextMenu={cMenu}>
+        {getValue()}
+      </div>)
+  }, [value, onClick, cMenu]);
+
 };
 
 export default Cell;

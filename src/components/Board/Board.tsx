@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import Cell from "../Cell/Cell";
 
 type Props = {
@@ -169,9 +169,7 @@ const Board: FC<Props> = ({width, height, mines}) => {
     });
   };
 
-  const _handleCellClick = (x: any, y: any) => {
-
-    console.log(111);
+  const _handleCellClick = useCallback((y: any, x: any) => {
 
     // check if revealed. return if true.
     if (board[x][y].isRevealed || board[x][y].isFlagged) return null;
@@ -201,7 +199,7 @@ const Board: FC<Props> = ({width, height, mines}) => {
     setBoard(updatedData);
     setMineCount(mines - getFlags(updatedData).length);
 
-  };
+  }, []);
 
   const [board, setBoard] = useState(initBoard(height, width, mines));
 
