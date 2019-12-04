@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import Cell from "../Cell/Cell";
 
 type Props = {
@@ -121,6 +121,8 @@ const Board: FC<Props> = ({width, height, mines}) => {
     return getNeighbours(arrayWithMines);
   };
 
+  const [board, setBoard] = useState(initBoard(height, width, mines));
+
   const revealBoard = () => {
     setBoard((prevBoard: any) => {
       return prevBoard.map((datarow: any) => {
@@ -154,7 +156,6 @@ const Board: FC<Props> = ({width, height, mines}) => {
       }
     });
     return data;
-
   };
 
   const getHidden = (data: any) => {
@@ -163,13 +164,13 @@ const Board: FC<Props> = ({width, height, mines}) => {
         if (!dataitem.isRevealed) {
           return dataitem;
         }
-
         return false;
       });
     });
   };
 
-  const _handleCellClick = useCallback((y: any, x: any) => {
+
+  const _handleCellClick = (y: any, x: any) => {
 
     // check if revealed. return if true.
     if (board[x][y].isRevealed || board[x][y].isFlagged) return null;
@@ -181,7 +182,7 @@ const Board: FC<Props> = ({width, height, mines}) => {
       alert("game over");
     }
 
-    let updatedData = board;
+    let updatedData = [...board];
     updatedData[x][y].isFlagged = false;
     updatedData[x][y].isRevealed = true;
 
@@ -195,18 +196,14 @@ const Board: FC<Props> = ({width, height, mines}) => {
       revealBoard();
       alert("You Win");
     }
-
-    setBoard(updatedData);
+    setBoard(() => updatedData);
     setMineCount(mines - getFlags(updatedData).length);
-
-  }, []);
-
-  const [board, setBoard] = useState(initBoard(height, width, mines));
+  };
 
   // cMenu={(e) => this._handleContextMenu(e, dataitem.x, dataitem.y)}
 
-  const renderBoard = (data: any) => {
-    return data.map((datarow: any) => {
+  const renderBoard = useCallback(() => {
+    return board.map((datarow: any) => {
       return datarow.map((dataitem: any) => {
         return (
           <div key={dataitem.x * datarow.length + dataitem.y}>
@@ -218,13 +215,13 @@ const Board: FC<Props> = ({width, height, mines}) => {
           </div>);
       })
     });
-  };
+  }, [board]);
 
   return (
     <div>
       Board
       <div>
-        {renderBoard(board)}
+        {renderBoard()}
       </div>
     </div>
   )

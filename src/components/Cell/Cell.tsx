@@ -21,18 +21,16 @@ const Cell: FC<Props> = ({value, onClick, cMenu}) => {
   };
 
 
-  return useMemo(() => {
-    const className =
-      "cell" +
-      (value.isRevealed ? "" : " hidden") +
-      (value.isMine ? " is-mine" : "") +
-      (value.isFlagged ? " is-flag" : "");
+  const className =
+    "cell" +
+    (value.isRevealed ? "" : " hidden") +
+    (value.isMine ? " is-mine" : "") +
+    (value.isFlagged ? " is-flag" : "");
 
-    return (
-      <div onClick={onClick} className={className} onContextMenu={cMenu}>
-        {getValue()}
-      </div>)
-  }, [value, onClick, cMenu]);
+  return (
+    <div onClick={onClick} className={className} onContextMenu={cMenu}>
+      {getValue()}
+    </div>)
 
 };
 
