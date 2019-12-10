@@ -20,8 +20,6 @@ const Cell: FC<Props> = ({value, onClick, cMenu}) => {
     return value.neighbour;
   };
 
-  console.log(value);
-
   const className =
     "cell" +
     (value.isRevealed ? "" : " hidden") +
