@@ -1,10 +1,10 @@
 import React, { FC, useState } from "react";
-import Board from "../Board/Board";
+import Board from "./../Board/Board";
 
 const Game: FC = () => {
   const [width, setWidth] = useState(8);
   const [height, setHeight] = useState(8);
-  const [mines, setMines] = useState(10);
+  const [mines, setMines] = useState(30);
 
   return (
     <div className="game">

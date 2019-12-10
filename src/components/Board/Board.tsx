@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import Cell from "../Cell/Cell";
 
 type Props = {
@@ -95,7 +95,7 @@ const Board: FC<Props> = ({width, height, mines}) => {
   const getNeighbours = (arrayWithMines: any) => {
     return arrayWithMines.map((oneDimensionArray: any) => {
       return oneDimensionArray.map((cell: any) => {
-        if (!!cell.isMine) {
+        if (!cell.isMine) {
           let mine = 0;
           const area = traverseBoard(cell.x, cell.y, arrayWithMines);
           area.map((value: any) => {
